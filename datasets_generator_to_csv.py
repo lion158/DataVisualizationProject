@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 ################################################################
 ########## można wymyślić jeszcze jakiś dataset ################
 class Datasets:
@@ -47,7 +48,6 @@ class Datasets:
         # return unit_vecto
         return scaled_xi.T
 
-
     ## kod pożyczony
     # (można sprawdzić, czy napewno dobry w wielu wymiarach)
     # torus
@@ -88,7 +88,7 @@ class Datasets:
 
         return np.array(coordinates).T
 
-    def one_sphere_one_ball_inside_dataset(self, dim, points_number, sphere_r, ball_r=2):
+    def one_sphere_one_ball_inside_dataset(self, dim, points_number, sphere_r=4, ball_r=2):
         sphere_points = self.sphere_points_generator(dim, points_number, sphere_r)
         ball_points = self.ball_points_generator(dim, points_number, ball_r)
 
@@ -96,14 +96,13 @@ class Datasets:
 
         y1 = np.zeros(points_number)
         y2 = np.ones(points_number)
-        labels = np.concatenate((y1,y2))
+        labels = np.concatenate((y1, y2))
         df = pd.DataFrame(data)
-        df['labels'] = labels
+        #df['labels'] = labels
 
-        return self.to_csv(df, "one_sphere_one_torus_inside_dataset.csv")
+        return self.to_csv(df, f'datasets/one_sphere_one_ball_inside/{dim}_points_{points_number}.csv')
 
-
-    def two_sphere_one_ball_inside_dataset(self, dim, points_number, sphere1_r, sphere2_r, ball_r=2):
+    def two_sphere_one_ball_inside_dataset(self, dim, points_number, sphere1_r=4, sphere2_r=4, ball_r=2):
         sphere_points = self.sphere_points_generator(dim, points_number, sphere1_r)
         sphere_points2 = self.sphere_points_generator(dim, points_number, sphere2_r)
         ball_points = self.ball_points_generator(dim, points_number, ball_r)
@@ -115,11 +114,12 @@ class Datasets:
         y3 = np.full(points_number, 2)
         labels = np.concatenate((y1, y2, y3))
         df = pd.DataFrame(data)
-        df['labels'] = labels
+        #df['labels'] = labels
 
-        return self.to_csv(df, "one_sphere_one_torus_inside_dataset.csv")
+        return self.to_csv(df, f'datasets/two_sphere_one_ball_inside/{dim}_points_{points_number}.csv')
 
-    def one_sphere_one_torus_inside_dataset(self, dim, points_number, sphere_r, torus_R=2, torus_r=1):
+    def one_sphere_one_torus_inside_dataset(self, dim, points_number, sphere_r=4, torus_R=2, torus_r=1):
+
         sphere_points = self.sphere_points_generator(dim, points_number, sphere_r)
         torus_points = self.generate_n_dimensional_torus(dim, points_number, torus_R, torus_r)
 
@@ -127,11 +127,25 @@ class Datasets:
 
         y1 = np.zeros(points_number)
         y2 = np.ones(points_number)
-        labels = np.concatenate((y1,y2))
+        labels = np.concatenate((y1, y2))
         df = pd.DataFrame(data)
-        df['labels'] = labels
+        #df['labels'] = labels
 
-        return self.to_csv(df, "one_sphere_one_torus_inside_dataset.csv")
+        return self.to_csv(df, f'datasets/one_sphere_one_torus_inside/dim_{dim}_points_{points_number}.csv')
 
-# datasets = Datasets()
-# datasets.one_sphere_one_torus_inside_dataset(3, 1000, 10, 4)
+
+datasets = Datasets()
+
+points_list = [1000, 2000, 5000, 20000, 50000, 100000]
+dimmentions = [3, 5, 10, 20, 50]
+
+# points_list = [1000, 2000]
+# dimmentions = [3, 5]
+
+
+for points in points_list:
+    for dim in dimmentions:
+        datasets.one_sphere_one_torus_inside_dataset(dim, points)
+        datasets.two_sphere_one_ball_inside_dataset(dim, points)
+        datasets.one_sphere_one_ball_inside_dataset(dim, points)
+
