@@ -98,7 +98,7 @@ class Datasets:
         y2 = np.ones(points_number)
         labels = np.concatenate((y1, y2))
         df = pd.DataFrame(data)
-        #df['labels'] = labels
+        df['labels'] = labels
 
         return self.to_csv(df, f'datasets/one_sphere_one_ball_inside/{dim}_points_{points_number}.csv')
 
@@ -114,7 +114,7 @@ class Datasets:
         y3 = np.full(points_number, 2)
         labels = np.concatenate((y1, y2, y3))
         df = pd.DataFrame(data)
-        #df['labels'] = labels
+        df['labels'] = labels
 
         return self.to_csv(df, f'datasets/two_sphere_one_ball_inside/{dim}_points_{points_number}.csv')
 
@@ -129,7 +129,7 @@ class Datasets:
         y2 = np.ones(points_number)
         labels = np.concatenate((y1, y2))
         df = pd.DataFrame(data)
-        #df['labels'] = labels
+        df['labels'] = labels
 
         return self.to_csv(df, f'datasets/one_sphere_one_torus_inside/dim_{dim}_points_{points_number}.csv')
 
