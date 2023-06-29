@@ -136,8 +136,8 @@ class Datasets:
 
 datasets = Datasets()
 
-points_list = [1000, 2000, 5000, 20000, 50000, 100000]
-dimmentions = [3, 5, 10, 20, 50]
+points_list = [1000, 2000, 5000, 20000, 50000]
+dimmentions = [3, 5, 10, 20]
 
 # points_list = [1000, 2000]
 # dimmentions = [3, 5]
