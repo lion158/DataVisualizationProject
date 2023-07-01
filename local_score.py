@@ -174,8 +174,8 @@ def viz_qa(
     # Initial values for xmin and xmax
     xmin, xmax = 1, -np.inf
 
-    fig = plt.figure(figsize=(16, 12))
-    ax = fig.add_subplot(111)
+    fig12 = plt.figure(figsize=(16, 12))
+    ax = fig12.add_subplot(111)
     if xlog:
         fplot = ax.semilogx
     else:
@@ -255,12 +255,13 @@ def viz_qa(
     # plt.tight_layout()
 
     # Showing the figure
-    fig.savefig(
-        "./{}.png".format(
+    fig12.savefig(
+        "./metrics/{}.png".format(
             tit
         ),
-        dpi=fig.dpi,
+        dpi=fig12.dpi,
     )
+    plt.close(fig12)
 
 
 class LocalMetric:
@@ -308,12 +309,12 @@ class LocalMetric:
         self.Lls.append("solid")
         self.number_of_methods = self.number_of_methods + 1
 
-    def visualize(self):
+    def visualize(self, name):
         Lmarkers = random.sample(markers, self.number_of_methods)
         Lcols = random.sample(colors, self.number_of_methods)
         Lmedw = [1.0] * self.number_of_methods
         Lsdots = [12] * self.number_of_methods
-
+        knn_name = f"KNN gain {name}"
         viz_qa(
             Ly=self.L_rnx,
             Lmarkers=Lmarkers,
@@ -322,11 +323,11 @@ class LocalMetric:
             Lls=self.Lls,
             Lmedw=Lmedw,
             Lsdots=Lsdots,
-            tit="DR quality",
+            tit=knn_name,
             xlabel="Neighborhood size $K$",
             ylabel="$R_{NX}(K)$",
         )
-
+        qa_name = f"DR quality {name}"
         viz_qa(
             Ly=self.L_kg,
             Lmarkers=Lmarkers,
@@ -335,7 +336,7 @@ class LocalMetric:
             Lls=self.Lls,
             Lmedw=Lmedw,
             Lsdots=Lsdots,
-            tit="KNN gain",
+            tit=qa_name,
             xlabel="Neighborhood size $K$",
             ylabel="$G_{NN}(K)$",
         )
